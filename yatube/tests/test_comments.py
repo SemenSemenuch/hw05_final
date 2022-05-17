@@ -31,8 +31,7 @@ class PostCommentTests(TestCase):
     def test_post_edit_correst_template(self):
         """Доступность комментариев для неавторизированных пользователей."""
         response = self.client.get(
-            reverse(
-                    'posts:add_comment', kwargs={'post_id': self.post.pk}))
+            reverse('posts:add_comment', kwargs={'post_id': self.post.pk}))
         self.assertEqual(response.status_code, HTTPStatus.FOUND.value)
         response_1 = self.authorized_client.get(
             reverse('posts:add_comment', kwargs={'post_id': self.post.pk}))
@@ -44,9 +43,8 @@ class PostCommentTests(TestCase):
             'text': 'Текст',
             'post': self.post
         }
-        self.authorized_client.post(
-            reverse(
-                    'posts:add_comment', kwargs={'post_id': self.post.pk}),
+        self.authorized_client.post(reverse(
+            'posts:add_comment', kwargs={'post_id': self.post.pk}),
             data=form_data,
             follow=True
         )
