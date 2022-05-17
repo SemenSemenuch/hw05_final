@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}
+  Название группы {{ group }}
+{% endblock %}
+{% block content %}
+{% load thumbnail %}
+  <div class="container py-5">
+    <h1>{{ group.title }}</h1>
+    {% for post in page_obj %}
+      <article>
+        <ul>
+          {% include 'includes/card_post.html' %}          
+        </ul>
+        {% thumbnail post.image "960x339" crop="center" upscale=True as im %}
+          <img class="card-img my-2" src="{{ im.url }}">
+        {% endthumbnail %}
+        <p>
+          {{ group.description }}
+        </p>
+      </article>
+    <hr />
+    {% endfor %}
+    {% include 'includes/paginator.html' %}    
+  </div>  
+{% endblock %}
