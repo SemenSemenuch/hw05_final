@@ -58,7 +58,7 @@ class FollowTests(TestCase):
         post_text_0 = first_object.text
         self.assertEqual(post_author_0, 'test2')
         self.assertEqual(post_text_0, 'Test')
-        
+
     def test_follow_following_client(self):
         self.authorized_client.force_login(self.user2)
         response = self.authorized_client.get(
