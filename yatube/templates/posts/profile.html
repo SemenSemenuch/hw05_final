@@ -27,7 +27,7 @@
       <article>
         <ul>
             <li>
-                Автор: {{ user.get_full_name }}
+                Автор: {{ author.get_full_name }}
                 <a href="{% url 'posts:profile' author %}">все посты пользователя</a>
             </li>
             <li>
@@ -46,6 +46,7 @@
         <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
       {% endif %}
     {% endfor %}
+    {% include 'posts/includes/card_author.html' %} 
     {% if not forloop.last %}<hr>{% endif %}
     {% include 'includes/paginator.html' %}    
   </div>  

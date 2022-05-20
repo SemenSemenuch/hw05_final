@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase, Client
 from http import HTTPStatus
+from django.core.cache import cache
 
 
 from posts.models import Group, Post
@@ -25,6 +26,7 @@ class StaticURLTests(TestCase):
         )
 
     def setUp(self):
+        cache.clear()
         self.guest_client = Client()
         self.user = User.objects.create_user(username='HasNoName')
         self.authorized_client = Client()
@@ -37,13 +39,12 @@ class StaticURLTests(TestCase):
             'group/<slug>/': '/group/test-slug/',
             'profile/<str:username>': f'/profile/{self.user}/',
             'posts/<post_id>': '/posts/1/',
-            'posts/<post_id>/edit': '/posts/1/edit/',
             'create/': '/create/',
         }
 
         for template, address in url_names.items():
             with self.subTest(address=address):
-                response = self.authorized_client.get(address)
+                response = self.client.get(address)
                 self.assertEqual(response.status_code, HTTPStatus.OK.value)
 
     def test_url_not_found(self):

@@ -40,6 +40,8 @@ def profile(request, username):
     author = get_object_or_404(User, username=username)
     post_list = author.posts.all()
     numb_post = post_list.count()
+    follower_count = author.follower.count()
+    following_count = author.following.count()
     paginator = Paginator(post_list, last_posts)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -51,7 +53,9 @@ def profile(request, username):
         'post_list': post_list,
         'numb_post': numb_post,
         'page_obj': page_obj,
-        'following': following
+        'following': following,
+        'follower_count': follower_count,
+        'following_count': following_count
     }
     return render(request, 'posts/profile.html', context)
 
@@ -78,14 +82,18 @@ def post_detail(request, post_id):
 
 def post_create(request):
     title = 'Добавить запись'
-    form = PostForm(
-        request.POST or None,
-        files=request.FILES or None)
-    if form.is_valid():
-        post = form.save(commit=False)
-        post.author = request.user
-        post.save()
-        return redirect('posts:profile', username=post.author)
+    if request.method == 'POST':
+        form = PostForm(
+            request.POST,
+            files=request.FILES,
+        )
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('posts:profile', username=post.author)
+    else:
+        form = PostForm()
     context = {
         'form': form,
         'title': title
@@ -94,20 +102,20 @@ def post_create(request):
 
 
 def post_edit(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
+    post = get_object_or_404(Post, pk=post_id)
+    if request.user != post.author:
+        return redirect('posts:post_detail', post_id=post.id)
     form = PostForm(
         request.POST or None,
         files=request.FILES or None,
         instance=post)
-    if form.is_valid():
-        form.save()
-        return redirect('posts:post_detail', post.id)
-    context = {
-        'form': form,
-        'is_edit': True,
-        'post_id': post.id
-    }
-    return render(request, 'posts/create_post.html', context)
+    template = 'posts/create.html'
+    context = {'form': form,
+               'post': post, }
+    if not form.is_valid():
+        return render(request, template, context)
+    form.save()
+    return redirect('posts:post_detail', post_id=post.id)
 
 
 @login_required

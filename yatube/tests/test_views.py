@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse
 from django import forms
+from django.core.cache import cache
 
 from posts.models import Post, Group
 
@@ -72,6 +73,7 @@ class PostTemplateTests(TestCase):
         )
 
     def setUp(self):
+        cache.clear()
         self.post_id = 0
         self.user = User.objects.create_user(username='user_gena')
         self.authorized_client = Client()
@@ -150,6 +152,7 @@ class PostTemplateTests(TestCase):
         )
 
     def setUp(self):
+        cache.clear()
         self.user = User.objects.create_user(username='Stas')
         self.authorized_client = Client()
         self.authorized_client.force_login(self.user)

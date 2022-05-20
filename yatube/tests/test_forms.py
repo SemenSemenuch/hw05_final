@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse
 from http import HTTPStatus
+from django.core.cache import cache
 
 from posts.models import Post, Group
 from posts.forms import PostForm
@@ -51,6 +52,7 @@ class PostFormTests(TestCase):
         self.assertEqual(post.author, self.author)
 
     def setUp(self):
+        cache.clear()
         self.user_Goga = User.objects.create_user(username='userGoga')
         self.user_Gosha = User.objects.create_user(username='userGosha')
         self.authorized_client_1 = Client()
@@ -100,4 +102,4 @@ class PostFormTests(TestCase):
         )
         post_2 = Post.objects.get(id=self.group.id)
         self.assertEqual(response_edit.status_code, HTTPStatus.OK)
-        self.assertEqual(post_2.text, 'Отредактированный текст')
+        self.assertEqual(post_2.text, form_data['text'])
