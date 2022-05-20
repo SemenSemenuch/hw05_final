@@ -110,7 +110,7 @@ def post_edit(request, post_id):
         request.POST or None,
         files=request.FILES or None,
         instance=post)
-    template = 'posts/create.html'
+    template = 'posts/create_post.html'
     context = {'form': form,
                'post': post, }
     if not form.is_valid():
