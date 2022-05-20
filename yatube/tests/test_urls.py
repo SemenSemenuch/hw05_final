@@ -39,7 +39,6 @@ class StaticURLTests(TestCase):
             'group/<slug>/': '/group/test-slug/',
             'profile/<str:username>': f'/profile/{self.user}/',
             'posts/<post_id>': '/posts/1/',
-            'create/': '/create/',
         }
 
         for template, address in url_names.items():

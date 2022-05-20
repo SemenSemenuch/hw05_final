@@ -172,22 +172,23 @@ class PostCreateFormTests(TestCase):
 
     def test_no_image_to_load(self):
         """Форма создает запись в Post но не изображение."""
+        cache.clear()
         post_count = Post.objects.count()
-        test_image = 'просто текст, не картинка'
-        form_data = {
+        test_image = str('просто текст, не картинка')
+        data = {
             'text': 'текст',
             'group': self.group,
             'image': test_image,
         }
         response_image = self.authorized_client.post(
             reverse('posts:post_create'),
-            data=form_data,
+            data=data,
             follow=True
         )
         self.assertEqual(Post.objects.count(), post_count)
         self.assertFormError(
             response_image,
-            'form',
-            'image',
-            'Ошибка при выборе типа поля'
+            form='form',
+            field='image',
+            errors=None,
         )
