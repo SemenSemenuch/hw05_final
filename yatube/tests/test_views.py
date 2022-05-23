@@ -176,7 +176,7 @@ class PostTemplateTests(TestCase):
         """Шаблон profile отображает правильную группу."""
         response = (self.authorized_client.get(reverse(
             'posts:profile', kwargs={'username': 'auth'})))
-        first_object = response.context['post_list'][0]
+        first_object = response.context['posts'][0]
         group_slug = first_object.group.title
         self.assertEqual(group_slug, 'Заголовок')
         self.assertIsNot(group_slug, 'Notest-slug')
