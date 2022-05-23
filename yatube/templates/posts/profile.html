@@ -46,7 +46,7 @@
         <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
       {% endif %}
     {% endfor %}
-    {% include 'posts/includes/card_author.html' %} 
+    {% include 'includes/card_author.html' %} 
     {% if not forloop.last %}<hr>{% endif %}
     {% include 'includes/paginator.html' %}    
   </div>  

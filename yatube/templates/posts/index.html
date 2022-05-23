@@ -6,7 +6,7 @@
 {% load cache %}
 {% cache 20 index_page %}
 <div class="container py-5">
-    {% include 'posts/includes/switcher.html' %}
+    {% include 'includes/switcher.html' %}
     {% for post in page_obj %}  
       {% include 'includes/card_post.html' %}
       {% include 'posts/post_list.html' %}
