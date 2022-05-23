@@ -40,8 +40,6 @@ def profile(request, username):
     author = get_object_or_404(User, username=username)
     post_list = author.posts.all()
     numb_post = post_list.count()
-    follower_count = author.follower.count()
-    following_count = author.following.count()
     paginator = Paginator(post_list, last_posts)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -53,9 +51,7 @@ def profile(request, username):
         'post_list': post_list,
         'numb_post': numb_post,
         'page_obj': page_obj,
-        'following': following,
-        'follower_count': follower_count,
-        'following_count': following_count
+        'following': following
     }
     return render(request, 'posts/profile.html', context)
 
