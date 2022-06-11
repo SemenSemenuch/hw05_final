@@ -34,7 +34,7 @@
     {% endthumbnail %}
     {% if post %}
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'posts:post_create' %}">Редактировать</a>
+        <a class="nav-link" href="{% url 'posts:post_edit' post_id=post.id %}">Редактировать</a>
       </li>
     {% endif %}
     {% include 'posts/comments.html' %}

@@ -8,6 +8,7 @@ from django import forms
 
 class SignUp(CreateView):
     form_class = CreationForm
+    # После успешной регистрации перенаправляем пользователя на главную.
     success_url = reverse_lazy('posts:index')
     template_name = 'users/signup.html'
 
@@ -19,29 +20,29 @@ class LogoutView(CreateView):
 
 class PasswordChangeView(forms.Form):
     form_class = ChangeForm
-    template_name = 'users/passw_change_form.html'
+    template_name = 'users/password_change_form.html'
 
 
 class PasswordChangeDoneView(forms.Form):
     form_class = ChangeForm
-    template_name = 'users/passw_change_done.html'
+    template_name = 'users/password_change_done.html'
 
 
 class PasswordResetDoneView(forms.Form):
     form_class = ResetForm
-    template_name = 'users/passw_reset_done.html'
+    template_name = 'users/password_reset_done.html'
 
 
 class PasswordResetView(forms.Form):
     form_class = ResetForm
-    template_name = 'users/passw_reset_form.html'
+    template_name = 'users/password_reset_form.html'
 
 
 class PasswordResetConfirmView(forms.Form):
     form_class = ResetForm
-    template_name = 'users/passw_reset_confirm.html'
+    template_name = 'users/password_reset_confirm.html'
 
 
 class PasswordResetCompleteView(forms.Form):
     form_class = ResetForm
-    template_name = 'users/passw_reset_complete.html'
+    template_name = 'users/password_reset_complete.html'
